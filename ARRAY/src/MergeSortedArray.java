@@ -46,6 +46,58 @@ public class MergeSortedArray {
         }
     }
 
+    //对上面的方法进行优化
+    public void merge1(int[] nums1, int m, int[] nums2, int n) {
+        if (n == 0) return;
+        if (m == 0) {
+            for (int i = 0; i < n; i++) {
+                nums1[i] = nums2[i];
+            }
+            return;
+        }
+        int index1 = m - 1;
+        int index2 = n - 1;
+        int index = m + n - 1;
+        System.out.println(index);
+        while (index >= 0) {
+            if (index == index1){
+                break;
+            }
+
+            if (index == index2){
+                for (int i = 0; i <= index2; i++) {
+                    nums1[i] = nums2[i];
+                }
+                break;
+            }
+           /* if (index2 == -1) break;
+            if (index1==-1){
+                for (int i = 0; i <= index2; i++) {
+                    nums1[i] = nums2[i];
+                }
+                break;
+            }*/
+            if (nums1[index1] <= nums2[index2]) {
+                nums1[index] = nums2[index2];
+                index--;
+                index2--;
+            } else {
+                nums1[index] = nums1[index1];
+                index--;
+                index1--;
+            }
+        }
+    }
+
+    //还是垫底5%的...高效的方法是什么???
+    public void merge3(int[] nums1, int m, int[] nums2, int n) {
+        int i=m-1, j=n-1, index=m+n-1;
+        while(i>=0 && j>=0){
+            nums1[index--] = nums1[i] > nums2[j]? nums1[i--]:nums2[j--];
+        }
+        while(j>=0)
+            nums1[index--] = nums2[j--];
+    }
     public static void main(String[] args) {
         int[] a = new int[10];
         int[] b = new int[3];
