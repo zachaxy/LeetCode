@@ -128,11 +128,28 @@ public class MaximumProductSubarray {
         }
     }
 
+    //一种简单的思路,效率明显提高...
+    public int maxProduct2(int[] nums) {
+        int max = Integer.MIN_VALUE, product = 1;
+        int len = nums.length;
+
+        for (int i = 0; i < len; i++) {
+            max = Math.max(product *= nums[i], max);
+            if (nums[i] == 0) product = 1;
+        }
+
+        product = 1;
+        for (int i = len - 1; i >= 0; i--) {
+            max = Math.max(product *= nums[i], max);
+            if (nums[i] == 0) product = 1;
+        }
+
+        return max;
+    }
 
     public static void main(String[] args) {
         //int[] nums = {1, 2, 3, -1, 4, 0, 5, 6, -1, 7, 8, -1, 9};
         int[] nums = {2, -5, -2, -4, 3};
-        //int[] nums = {3, -4, -2, -5, 2};
-        System.out.println(new MaximumProductSubarray().maxProduct(nums));
+        System.out.println(new MaximumProductSubarray().maxProduct2(nums));
     }
 }
