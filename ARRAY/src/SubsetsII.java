@@ -108,6 +108,56 @@ public class SubsetsII {
         return lists;
     }
 
+    //这种方法思路简单,但是效率并不高;
+    public List<List<Integer>> subsetsWithDup3(int[] nums) {
+        Arrays.sort(nums);  //先进性排序;
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        result.add(new ArrayList<Integer>());  //添加一个空元素;
+        for (int i = 0; i < nums.length; i++) {
+            List<List<Integer>> tmp = new ArrayList<List<Integer>>();
+            for (List<Integer> res : result) {
+                List<Integer> list = new ArrayList<Integer>(res); //addAll()或者在构造函数中直接传参均可;
+                //这一步并没有判断重复元素就直接添加了,这样会造成很多重复集合;
+                list.add(nums[i]);
+                //在这一步进行重复元素的排查;
+                if (!result.contains(list)) {
+                    tmp.add(list);
+                }
+            }
+            result.addAll(tmp);
+
+        }
+
+        return result;
+    }
+
+    //2ms solution,未验证;
+    public List<List<Integer>> subsetsWithDup4(int[] nums) {
+        Arrays.sort(nums);
+        boolean[] isIncluded = new boolean[nums.length];  // track entries which are included in current dfs path
+        List<List<Integer>> soln = new ArrayList<List<Integer>>();
+        dfs(nums, 0, isIncluded, soln);
+        return soln;
+    }
+
+    public void dfs(int[] nums, int start, boolean[] isIncluded, List<List<Integer>> soln) {
+        if (start == nums.length) {
+            List<Integer> entry = new ArrayList<Integer>();
+            for (int i = 0; i < nums.length; i++) {
+                if (isIncluded[i]) entry.add(nums[i]);
+            }
+            soln.add(entry);
+            return;
+        }
+        isIncluded[start] = true;
+        dfs(nums, start + 1, isIncluded, soln);
+        isIncluded[start] = false;
+        int nextIndex = start + 1;
+        while (nextIndex < nums.length && nums[nextIndex] == nums[start]) {
+            isIncluded[nextIndex++] = false;
+        }
+        dfs(nums, nextIndex, isIncluded, soln);
+    }
     public static void main(String[] args) {
         int[] nums = {1, 1, 5, 5, 5};
         System.out.println(new SubsetsII().subsetsWithDup2(nums));
