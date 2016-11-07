@@ -3,7 +3,7 @@ import java.util.HashMap;
 /**
  * Author: zhangxin
  * Time: 2016/11/5 0005.
- * Desc:
+ * Desc: 最长回文字符串的长度;
  * Given a string which consists of lowercase or uppercase letters, find the length of the longest palindromes that can be built with those letters.
  * <p>
  * This is case sensitive, for example "Aa" is not considered a palindrome here.
